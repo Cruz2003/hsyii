@@ -1,0 +1,162 @@
+<div class="box">
+    <div class="box-title c"><h1><i class="fa fa-table"></i>录用稿件</h1>   </div><!--box-title end-->
+    <div class="box-content">
+        <div class="box-header">
+            <a class="btn" href="javascript:;" onclick="we.reload();"><i class="fa fa-refresh"></i>刷新</a>
+            <?php if(Yii::app()->request->getParam('columnId')) {?>
+            <a  class="btn" href="<?php echo $this->createUrl('downloadZip', array('columnId'=>Yii::app()->request->getParam('columnId')));?>"></i>下载全部</a>
+            <?php } ?>
+            <a style="display:none;" id="j-delete" class="btn" href="javascript:;" onclick="we.dele(we.checkval('.check-item input:checked'), deleteUrl);"><i class="fa fa-trash-o"></i>删除</a>
+        </div><!--box-header end-->
+        <div class="box-search">
+            <form action="<?php echo Yii::app()->request->url;?>" method="get">
+                <input type="hidden" name="r" value="<?php echo Yii::app()->request->getParam('r');?>">
+                <input type="hidden" name="news_type" value="<?php echo Yii::app()->request->getParam('news_type');?>">
+                <label style="margin-right:10px;">
+                    <span>关键字：</span>
+                    <input style="width:200px;" class="input-text" type="text" name="keywords" value="<?php echo Yii::app()->request->getParam('keywords');?>">
+                </label>
+                <label style="margin-right:20px;">
+                    <span>投稿栏目：</span>
+                    <select name="columnId">
+                        <option value="">请选择</option>
+                        <?php foreach($column as $v){?>
+                            <option value="<?php echo $v->id;?>"<?php if(Yii::app()->request->getParam('columnId')==$v->id){?> selected<?php }?>><?php echo $v->name;?></option>
+                        <?php }?>
+                    </select>
+                </label>
+                 <label style="margin-right:20px;">
+                    <span>文章类型：</span>
+                    <select name="type">
+                        <option value="">请选择</option>
+                        <?php foreach($type as $v){?>
+                            <option value="<?php echo $v->id;?>"<?php if(Yii::app()->request->getParam('type')==$v->id){?> selected<?php }?>><?php echo $v->type;?></option>
+                        <?php }?>
+                    </select>
+                </label>
+                  <label style="margin-right:20px;">
+                    <span>年级：</span>
+                    <select name="grade">
+                        <option value="">请选择</option>
+                        <?php $grade=range(1,9); foreach($grade as $v){?>
+                            <option value="<?php echo $v;?>"<?php if(Yii::app()->request->getParam('grade')==$v){?> selected<?php }?>><?php echo $v.'年级';?></option>
+                        <?php }?>
+                    </select>
+                </label>
+                 <label style="margin-right:10px;">
+                    <span>发表栏目：</span>
+                     <input style="width:200px;" class="input-text" type="text" name="publishColumn" value="<?php echo Yii::app()->request->getParam('publishColumn');?>">
+                </label>
+                 <label style="margin-right:10px;">
+                    <span>发表日期：</span>
+                    <input style="width:120px;" class="input-text" type="text" id="start_date" name="start_date" value="<?php echo Yii::app()->request->getParam('start_date',date("Y-m-d",time()+8*3600));?>">
+                    <span>-</span>      
+                    <input style="width:120px;" class="input-text" type="text" id="end_date" name="end_date" value="<?php echo Yii::app()->request->getParam('end_date',date("Y-m-d",time()+8*3600));?>">
+                </label>
+                <label style="margin-right:10px;">
+                    <span>期刊：</span>
+                    <select name="frequency">
+                        <option value="">请选择</option>
+                        <?php foreach($frequency as $v){?>
+                            <option value="<?php echo $v->id;?>"<?php if(Yii::app()->request->getParam('frequency')==$v->id){?> selected<?php }?>><?php echo $v->name;?></option>
+                        <?php }?>
+                    </select>
+                </label>
+                <button class="btn btn-blue" type="submit">查询</button>
+            </form>
+        </div><!--box-search end-->
+        <div class="box-table">
+            <table class="list">
+                <thead>
+                    <tr>
+                        <th class="check"><input id="j-checkall" class="input-check" type="checkbox"></th>
+                        <th style='text-align: center;'>序号</th>
+                        <th style='text-align: center;'><?php echo $model->getAttributeLabel('title');?></th>
+                        <th style='text-align: center;'><?php echo $model->getAttributeLabel('introduce');?></th>
+                        <th style='text-align: center;'><?php echo $model->getAttributeLabel('type_name');?></th>
+                        <th style='text-align: center;'><?php echo $model->getAttributeLabel('author');?></th>
+                        <th style='text-align: center;'><?php echo $model->getAttributeLabel('grade');?></th>
+                        <th style='text-align: center;'><?php echo $model->getAttributeLabel('file');?></th>
+                        <th style='text-align: center;'><?php echo $model->getAttributeLabel('publish_column');?></th>
+                        <th style='text-align: center;'><?php echo $model->getAttributeLabel('publish_date');?></th>
+                        <th style='text-align: center;'><?php echo $model->getAttributeLabel('frequency_id');?></th>
+                        <th style='text-align: center;'>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <?php $basepath=BasePath::model()->getPath(124);?>
+                <?php 
+                $index = 1;
+                foreach($arclist as $v){ 
+                ?>
+                    <tr>
+                        <td class="check check-item"><input class="input-check" type="checkbox" value="<?php echo CHtml::encode($v->id); ?>"></td>
+                        <td style='text-align: center;'><span class="num num-1"><?php echo $index ?></span></td>
+                        <td style='text-align:left;'><?php echo $v->title; ?></td>
+                        <td style='text-align: center;'><?php echo $v->introduce; ?></td>
+                        <td style='text-align: center;'><?php echo $v->type_name; ?></td>
+                        <td style='text-align: center;'><?php echo $v->author; ?></td>
+                        <td style='text-align: center;'><?php echo $v->grade; ?></td>
+                        <td style='text-align: center;'>
+                            <a href="javascript:;" onclick="preview('<?php echo $v->id; ?>')" >预览</a>  
+                            <a href="<?php echo $this->createUrl('word2html', array('id'=>$v->id));?>" >下载</a>    
+                        </td>
+                        <td style='text-align: center;'><?php echo $v->publish_column; ?></td>
+                        <td style='text-align: center;'><?php echo $v->publish_date; ?></td>
+                        <td style='text-align: center;'><?php echo $v->frequency->name; ?></td>
+                        <td style='text-align: center;'>
+                            <a class="btn" href="javascript:;" onclick="we.dele('<?php echo $v->id;?>', deleteUrl);" title="删除"><i class="fa fa-trash-o"></i></a> 
+                        </td>
+                    </tr>
+<?php $index++; } ?>
+                </tbody>
+            </table>
+        </div><!--box-table end-->
+        
+        <div class="box-page c"><?php $this->page($pages);?></div>
+        
+    </div><!--box-content end-->
+</div><!--box end-->
+<script>
+
+var deleteUrl = '<?php echo $this->createUrl('delete', array('id'=>'ID')); ?>';
+
+$(function(){
+    var start_time=$('#start_date');
+    var end_time=$('#end_date');
+	start_time.on('click', function(){
+        WdatePicker({startDate:'%y-%M-%D',dateFmt:'yyyy-MM-dd'});});
+    end_time.on('click', function(){
+         WdatePicker({startDate:'%y-%M-%D',dateFmt:'yyyy-MM-dd'});});
+
+});
+function preview(id){
+ $.dialog.open('<?php echo $this->createUrl("Article/preview");?>&id='+id,{
+            id:'article',
+            lock:true,
+            opacity:0.3,
+            title:'文章预览',
+            width:'600px',
+            height:'100%',
+            close: function() {
+               we.reload();
+                
+            }
+        });
+}
+
+// function read(wordname){
+//  $.dialog.open('<?php echo $this->createUrl("Article/read");?>&wordname='+wordname,{
+//             id:'article',
+//             lock:true,
+//             opacity:0.3,
+//             title:'文章预览',
+//             width:'700px',
+//             height:'90%',
+//             close: function() {
+               
+                
+//             }
+//         });
+// }
+</script>
