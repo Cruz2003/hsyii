@@ -15,7 +15,7 @@
                     <input style="width:200px;" class="input-text" type="text" name="keywords" value="<?php echo Yii::app()->request->getParam('keywords');?>">
                 </label>
                 
-                <button class="btn btn-blue" type="submit">查询</button>
+                <button class="btn btn-blue" type="s+ubmit">查询</button>
             </form>
         </div><!--box-search end-->
         <div class="box-table">

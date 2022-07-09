@@ -122,6 +122,8 @@ class  RepresentativeController extends BaseController {
         }
     }
 
+    public function action 
+
          function saveData($model,$post) {
            $model->attributes =$post;
            show_status($model->save(),'保存成功', get_cookie('_currentUrl_'),'保存失败');  

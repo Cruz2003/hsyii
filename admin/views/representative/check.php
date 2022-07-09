@@ -23,12 +23,11 @@
             <?php foreach ($arclist as $v) { ?>
                 <tr><!-- 
                     <td class="check check-item"><input class="input-check" type="checkbox"
-          
-                                                      value="<?php echo CHtml::encode($v->id); ?>"></td> -->
+                        value="<?php echo CHtml::encode($v->id); ?>"></td> -->
                     <td style='text-align: center;'><?php echo $v->num; ?></td>
                     <td style='text-align: center;'><?php echo $v->name; ?></td>
                     <td style='text-align: center;'><?php echo $v->sex; ?></td>
-                    <td style='text-align: center;''><?php echo $v->birth; ?></td>
+                    <td style='text-align: center;'><?php echo $v->birth; ?></td>
                     <td style='text-align: center;'><?php echo $v->party; ?></td>
                     <td style='text-align: center;'><?php echo $v->education; ?></td>
                     <td style='text-align: center;'><?php echo $v->work_time; ?></td>

@@ -29,7 +29,7 @@ class   ActivityController extends BaseController {
         parent::_clear($id);
     }
     
-      public function actionIndex($keywords = '') {
+    public function actionIndex($keywords = '') {
         set_cookie('_currentUrl_', Yii::app()->request->url);
         $modelName = $this->model;
         $model = $modelName::model();
