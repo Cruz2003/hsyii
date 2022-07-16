@@ -14,7 +14,7 @@ class Activity extends BaseModel {
     public function rules() {
       
         return array(
-			array('id,name,introduce,start_time,end_time,image','safe'), 
+			array(),
 		);
     }	
 
