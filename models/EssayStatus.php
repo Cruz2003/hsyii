@@ -14,7 +14,7 @@ class EssayStatus extends BaseModel {
     public function rules() {
       
         return array(
-			array('status_name','safe'), 
+			array(),
 		);
     }	
 
